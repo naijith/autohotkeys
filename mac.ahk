@@ -107,6 +107,11 @@ F19::Run https://facebook.com
 ; New window
 #n::Send ^n
 
+; Paste via Win+V to mimic Ctrl+V
+#v::Send ^v
+; Preserve native Win+Shift+V behavior
+#+v::Send #{v}
+
 ; Cycle terminals/tabs with Ctrl + PgDn
 #`::Send ^{PgDn}
 ; Cycle terminals/tabs backward with Ctrl + PgUp
@@ -131,11 +136,42 @@ F19::Run https://facebook.com
 !+Left::Send ^+{Left}
 !+Right::Send ^+{Right}
 
+; Delete the entire current line (Win + Backspace)
+#Backspace::
+    SendInput {Home}
+    SendInput +{End}
+    SendInput {Del}
+return
+
+; Delete previous word (Option/Alt + Backspace)
+!Backspace::SendInput ^{Backspace}
+
 ; Close windows (cmd + q to Alt + F4)
 #q::SendInput !{F4}
 
-; Remap Windows + Tab to Alt + Tab.
-Lwin & Tab::AltTab
+; Track Alt-tab latch state for Win+Tab emulation
+WinAltTabActive := false
+
+; Remap Windows + Tab (with optional Shift) to Alt+Tab navigation
+LWin & Tab::
+    if (!WinAltTabActive) {
+        SendInput {Alt down}
+        WinAltTabActive := true
+        SetTimer, __ReleaseAltOnLWinUp, 20
+    }
+    if GetKeyState("Shift", "P")
+        SendInput +{Tab}
+    else
+        SendInput {Tab}
+return
+
+__ReleaseAltOnLWinUp:
+    if GetKeyState("LWin", "P")
+        return
+    SetTimer, __ReleaseAltOnLWinUp, Off
+    WinAltTabActive := false
+    SendInput {Alt up}
+return
 
 ; minimize windows
 #m::WinMinimize,a
