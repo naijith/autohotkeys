@@ -104,12 +104,18 @@ F19::Run https://facebook.com
 ; New tab
 #t::Send ^t
 
+; New window
+#n::Send ^n
+
+; Cycle terminals/tabs forward
+#`::Send ^{PgUp}
+
 ; Close current document/tab instead of entire app
 #w::Send ^w
 
-; Move caret to beginning/end of line (Cmd + Left/Right)
-#Left::Send {Home}
-#Right::Send {End}
+; Snap window to left/right half (Win + Left/Right)
+#Left::SendInput #{Left}
+#Right::SendInput #{Right}
 
 ; Extend selection to beginning/end of line (Shift + Cmd + Left/Right)
 #+Left::Send +{Home}
@@ -131,6 +137,9 @@ Lwin & Tab::AltTab
 
 ; minimize windows
 #m::WinMinimize,a
+
+; maximize windows
+#Up::WinMaximize, A
 
 
 ; --------------------------------------------------------------
