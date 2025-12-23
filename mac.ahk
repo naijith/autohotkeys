@@ -107,8 +107,10 @@ F19::Run https://facebook.com
 ; New window
 #n::Send ^n
 
-; Cycle terminals/tabs forward
-#`::Send ^{PgUp}
+; Cycle terminals/tabs with Ctrl + PgDn
+#`::Send ^{PgDn}
+; Cycle terminals/tabs backward with Ctrl + PgUp
+#+`::Send ^{PgUp}
 
 ; Close current document/tab instead of entire app
 #w::Send ^w
