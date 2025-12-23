@@ -74,14 +74,14 @@ F19::Run https://facebook.com
 ; Copying
 #c::Send, ^c
 
-; Pasting
-#v::Send, ^v
-
 ; Cutting
 #x::Send, ^x
 
 ; Opening
 #o::Send ^o
+
+; Focus omnibox / edit URL
+#l::Send ^l
 
 ; Finding
 #f::Send ^f
@@ -92,10 +92,19 @@ F19::Run https://facebook.com
 ; Redo
 #y::Send ^y
 
+; Map Win + Shift + F to Ctrl + Shift + F
+#+f::Send ^+f
+
+; Refresh
+#r::Send ^r
+
+; Downloads
+#j::Send ^j
+
 ; New tab
 #t::Send ^t
 
-; close tab
+; Close current document/tab instead of entire app
 #w::Send ^w
 
 ; Move caret to beginning/end of line (Cmd + Left/Right)
