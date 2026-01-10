@@ -120,9 +120,9 @@ F19::Run https://facebook.com
 ; Close current document/tab instead of entire app
 #w::Send ^w
 
-; Snap window to left/right half (Win + Left/Right)
-#Left::SendInput #{Left}
-#Right::SendInput #{Right}
+; Move caret to start/end of line (Win + Left/Right)
+#Left::SendInput {Home}
+#Right::SendInput {End}
 
 ; Extend selection to beginning/end of line (Shift + Cmd + Left/Right)
 #+Left::Send +{Home}
