@@ -112,10 +112,40 @@ F19::Run https://facebook.com
 ; Preserve native Win+Shift+V behavior
 #+v::Send #{v}
 
-; Cycle terminals/tabs with Ctrl + PgDn
-#`::Send ^{PgDn}
-; Cycle terminals/tabs backward with Ctrl + PgUp
-#+`::Send ^{PgUp}
+; Cycle through windows of the current application (forward/backward)
+#`::
+    WinGet, active_id, ID, A
+    WinGet, process_name, ProcessName, ahk_id %active_id%
+    WinGet, windowList, List, ahk_exe %process_name%
+    if (windowList <= 1)
+        return
+    Loop %windowList% {
+        this_id := windowList%A_Index%
+        if (this_id = active_id) {
+            next_index := (A_Index = windowList) ? 1 : A_Index + 1
+            target_id := windowList%next_index%
+            WinActivate, ahk_id %target_id%
+            break
+        }
+    }
+return
+
+#+`::
+    WinGet, active_id, ID, A
+    WinGet, process_name, ProcessName, ahk_id %active_id%
+    WinGet, windowList, List, ahk_exe %process_name%
+    if (windowList <= 1)
+        return
+    Loop %windowList% {
+        this_id := windowList%A_Index%
+        if (this_id = active_id) {
+            prev_index := (A_Index = 1) ? windowList : A_Index - 1
+            target_id := windowList%prev_index%
+            WinActivate, ahk_id %target_id%
+            break
+        }
+    }
+return
 
 ; Close current document/tab instead of entire app
 #w::Send ^w
